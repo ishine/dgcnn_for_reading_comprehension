@@ -86,7 +86,7 @@ else:
 train_data = [sogou_data[j] for i, j in enumerate(random_order) if i % 3 != mode]
 dev_data = [sogou_data[j] for i, j in enumerate(random_order) if i % 3 == mode]
 train_data.extend(train_data)
-train_data.extend(webqa_data)
+train_data.extend(webqa_data) # 将SogouQA和WebQA按2:1的比例混合
 
 
 def seq_padding(X, padding=0):
@@ -447,7 +447,7 @@ def extract_answer(q_text, p_texts, maxlen=12, threshold=0.1):
 
 def max_in_dict(d):
     if d:
-        return d.keys()[np.argmax(d.values())]
+        return sorted(d.items(), key=lambda s: -s[1])[0][0]
 
 
 def predict(data, filename, threshold=0.1):
